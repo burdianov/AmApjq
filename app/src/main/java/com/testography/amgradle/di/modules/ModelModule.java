@@ -8,7 +8,7 @@ import dagger.Module;
 import dagger.Provides;
 
 @Module
-public class ModelModule {
+public class ModelModule extends FlavorModelModule{
     @Provides
     @Singleton
     DataManager privateDataManager() {
