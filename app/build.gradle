@@ -110,6 +110,7 @@ dependencies {
 
     // dependency for base flavor
     baseCompile 'com.uphyca:stetho_realm:2.0.0'
+    baseCompile 'com.birbit:android-priority-jobqueue:2.0.1'
 
     // LeakCanary
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
