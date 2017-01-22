@@ -1,5 +1,7 @@
 package com.testography.amgradle.data.storage.realm;
 
+import com.testography.amgradle.data.managers.DataManager;
+import com.testography.amgradle.data.managers.PreferencesManager;
 import com.testography.amgradle.data.network.res.CommentRes;
 
 import java.io.Serializable;
@@ -23,7 +25,10 @@ public class CommentRealm extends RealmObject implements Serializable {
 
     public CommentRealm(float rating, String comment) {
         this.id = String.valueOf(this.hashCode());
-        this.userName = "NoName"; // TODO: 16-Jan-17 implement me
+        final PreferencesManager pm = DataManager.getInstance()
+                .getPreferencesManager();
+        this.userName = pm.getUserName();
+        this.avatar = pm.getUserAvatar();
         this.rating = rating;
         this.commentDate = new Date();
         this.comment = comment;

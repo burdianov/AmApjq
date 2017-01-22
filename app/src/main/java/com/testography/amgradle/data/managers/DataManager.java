@@ -7,6 +7,7 @@ import com.testography.amgradle.App;
 import com.testography.amgradle.R;
 import com.testography.amgradle.data.network.RestCallTransformer;
 import com.testography.amgradle.data.network.RestService;
+import com.testography.amgradle.data.network.res.AvatarUrlRes;
 import com.testography.amgradle.data.network.res.CommentRes;
 import com.testography.amgradle.data.network.res.ProductRes;
 import com.testography.amgradle.data.storage.dto.CommentDto;
@@ -29,6 +30,7 @@ import java.util.UUID;
 
 import javax.inject.Inject;
 
+import okhttp3.MultipartBody;
 import retrofit2.Retrofit;
 import rx.Observable;
 import rx.Subscriber;
@@ -345,6 +347,10 @@ public class DataManager {
 
     private String getResVal(int resourceId) {
         return getAppContext().getString(resourceId);
+    }
+
+    public Observable<AvatarUrlRes> uploadUserPhoto(MultipartBody.Part body) {
+        return mRestService.uploadUserAvatar(body);
     }
 
     //endregion

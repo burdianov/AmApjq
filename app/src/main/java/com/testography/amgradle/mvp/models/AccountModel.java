@@ -3,6 +3,7 @@ package com.testography.amgradle.mvp.models;
 import com.testography.amgradle.data.storage.dto.UserAddressDto;
 import com.testography.amgradle.data.storage.dto.UserInfoDto;
 import com.testography.amgradle.data.storage.dto.UserSettingsDto;
+import com.testography.amgradle.jobs.UploadAvatarJob;
 
 import java.util.List;
 import java.util.Map;
@@ -18,7 +19,6 @@ import static com.testography.amgradle.data.managers.PreferencesManager.PROFILE_
 
 public class AccountModel extends AbstractModel {
 
-//     private PublishSubject<UserInfoDto> mUserInfoObs = PublishSubject.create();
     private BehaviorSubject<UserInfoDto> mUserInfoObs = BehaviorSubject.create();
 
     public AccountModel() {
@@ -39,10 +39,19 @@ public class AccountModel extends AbstractModel {
         mDataManager.saveUserProfileInfo(userInfo.getName(), userInfo.getPhone(),
                 userInfo.getAvatar());
         mUserInfoObs.onNext(userInfo);
+
+        String uriAvatar = userInfo.getAvatar();
+        if (!uriAvatar.contains("http")) {
+            uploadAvatarToServer(uriAvatar);
+        }
     }
 
     public Observable<UserInfoDto> getUserInfoObs() {
         return mUserInfoObs;
+    }
+
+    private void uploadAvatarToServer(String imageUri) {
+        mJobManager.addJobInBackground(new UploadAvatarJob(imageUri));
     }
 
     //endregion
