@@ -169,7 +169,6 @@ public class DataManager {
             mUserAddresses.remove(mUserAddresses.indexOf(addressDto));
             mRealmManager.deleteFromRealm(UserAddressRealm.class, addressDto.getId());
         }
-        //getPreferencesManager().saveUserAddresses(mUserAddresses);
     }
 
     public List<UserAddressDto> getUserAddresses() {
@@ -292,9 +291,13 @@ public class DataManager {
 
     //region ==================== Comments ===================
 
+    public Observable<CommentRes> sendComment(String productId, CommentRes comment) {
+        return mRestService.sendComment(productId, comment);
+    }
+
     public void saveCommentToNetworkAndRealm(String productId,
                                              CommentRes commentRes) {
-        mRestService.uploadComment(productId, commentRes)
+        mRestService.sendComment(productId, commentRes)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(Schedulers.io())
                 .subscribe(new Subscriber<CommentRes>() {

@@ -2,12 +2,13 @@ package com.testography.amgradle.data.storage.realm;
 
 import com.testography.amgradle.data.network.res.CommentRes;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
-public class CommentRealm extends RealmObject {
+public class CommentRealm extends RealmObject implements Serializable {
     @PrimaryKey
     private String id;
     private String userName;

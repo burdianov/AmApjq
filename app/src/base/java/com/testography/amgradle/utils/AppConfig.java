@@ -10,4 +10,5 @@ public class AppConfig {
     public static final int MAX_CONSUMER_COUNT = 3;
     public static final int LOAD_FACTOR = 3;
     public static final int KEEP_ALIVE = 120;
+    public static final int INITIAL_BACK_OFF_IN_MS = 1000;
 }

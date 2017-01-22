@@ -1,16 +1,20 @@
 package com.testography.amgradle.data.network;
 
+import com.testography.amgradle.data.network.res.AvatarUrlRes;
 import com.testography.amgradle.data.network.res.CommentRes;
 import com.testography.amgradle.data.network.res.ProductRes;
 import com.testography.amgradle.utils.ConstantsManager;
 
 import java.util.List;
 
+import okhttp3.MultipartBody;
 import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 import rx.Observable;
 
@@ -23,6 +27,10 @@ public interface RestService {
                      lastEntityUpdate);
 
     @POST("products/{productId}/comments")
-    Observable<CommentRes> uploadComment(@Path("productId") String productId,
-                                         @Body CommentRes commentRes);
+    Observable<CommentRes> sendComment(@Path("productId") String productId,
+                                       @Body CommentRes commentRes);
+
+    @Multipart
+    @POST("avatar")
+    Observable<AvatarUrlRes> uploadUserAvatar(@Part MultipartBody.Part file);
 }

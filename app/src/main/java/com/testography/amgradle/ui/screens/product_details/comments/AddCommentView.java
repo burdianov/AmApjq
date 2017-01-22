@@ -7,13 +7,9 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.testography.amgradle.R;
-import com.testography.amgradle.data.network.res.CommentRes;
+import com.testography.amgradle.data.storage.realm.CommentRealm;
 import com.testography.amgradle.di.DaggerService;
 import com.testography.amgradle.mvp.views.AbstractView;
-import com.testography.amgradle.utils.ConstantsManager;
-import com.testography.amgradle.utils.RandomIdGenerator;
-
-import java.util.Date;
 
 import javax.inject.Inject;
 
@@ -59,14 +55,18 @@ public class AddCommentView extends AbstractView<AddCommentScreen
 
     @OnClick(R.id.save_comment_btn)
     void saveComment() {
-        CommentRes commentRes = new CommentRes(
+        /*CommentRes commentRes = new CommentRes(
                 RandomIdGenerator.generateId(),
                 RandomIdGenerator.generateRemoteId(),
                 ConstantsManager.TEMPORARY_USER_AVATAR,
                 ConstantsManager.TEMPORARY_USER_NAME,
                 (int) mRating.getRating(), new Date(),
                 mCommentEt.getText().toString(), true);
-        mPresenter.clickOnSaveComment(commentRes);
+        mPresenter.clickOnSaveComment(commentRes);*/
+
+        CommentRealm comment = new CommentRealm(mRating.getRating(),
+                mCommentEt.getText().toString());
+        mPresenter.addComment(comment);
     }
 
     //endregion

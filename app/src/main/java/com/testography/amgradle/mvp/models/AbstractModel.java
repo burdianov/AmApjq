@@ -1,5 +1,6 @@
 package com.testography.amgradle.mvp.models;
 
+import com.birbit.android.jobqueue.JobManager;
 import com.testography.amgradle.data.managers.DataManager;
 import com.testography.amgradle.di.DaggerService;
 import com.testography.amgradle.di.components.DaggerModelComponent;
@@ -12,6 +13,8 @@ public abstract class AbstractModel {
 
     @Inject
     DataManager mDataManager;
+    @Inject
+    JobManager mJobManager;
 
     public AbstractModel() {
         ModelComponent component = DaggerService.getComponent(ModelComponent.class);

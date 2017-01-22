@@ -1,6 +1,7 @@
 package com.testography.amgradle.data.network.res;
 
 import com.squareup.moshi.Json;
+import com.testography.amgradle.data.storage.realm.CommentRealm;
 
 import java.util.Date;
 
@@ -27,6 +28,14 @@ public class CommentRes {
         this.commentDate = commentDate;
         this.comment = comment;
         this.active = active;
+    }
+
+    public CommentRes(CommentRealm comment) {
+        this.avatar = comment.getAvatar();
+        this.userName = comment.getUserName();
+        this.rating = comment.getRating();
+        this.commentDate = comment.getCommentDate();
+        this.comment = comment.getComment();
     }
 
     public String getId() {
