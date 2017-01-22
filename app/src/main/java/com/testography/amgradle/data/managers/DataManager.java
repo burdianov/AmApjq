@@ -1,6 +1,7 @@
 package com.testography.amgradle.data.managers;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.fernandocejas.frodo.annotation.RxLogObservable;
 import com.testography.amgradle.App;
@@ -20,13 +21,17 @@ import com.testography.amgradle.di.components.DaggerDataManagerComponent;
 import com.testography.amgradle.di.components.DataManagerComponent;
 import com.testography.amgradle.di.modules.LocalModule;
 import com.testography.amgradle.di.modules.NetworkModule;
+import com.testography.amgradle.utils.AppConfig;
 import com.testography.amgradle.utils.ConstantsManager;
+import com.testography.amgradle.utils.NetworkStatusChecker;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -84,6 +89,22 @@ public class DataManager {
         generateMockData();
         initUserProfileData();
         initUserSettingsData();
+
+        updateLocalDataWithTimer();
+    }
+
+    private void updateLocalDataWithTimer() {
+        Log.e(TAG, "LOCAL UPDATE start : " + new Date());
+        Observable.interval(AppConfig.UPDATE_DATA_INTERVAL, TimeUnit.SECONDS) // генерируем последовательность испускающую элементы каждые 30 секунд
+                .flatMap(aLong -> NetworkStatusChecker.isInternetAvailable()) // проверяем состояние сети
+                .filter(aBoolean -> aBoolean) // только если сеть доступна запрашиваем данные из сети
+                .flatMap(aBoolean -> getProductsObsFromNetwork()) // запрашиваем данные из сети
+                .subscribe(productRealm -> {
+                    Log.e(TAG, "LOCAL UPDATE complete: ");
+                }, throwable -> {
+                    throwable.printStackTrace();
+                    Log.e(TAG, "LOCAL UPDATE error: " + throwable.getMessage());
+                });
     }
 
     //endregion
@@ -282,6 +303,20 @@ public class DataManager {
                 .filter(ProductRes::isActive) // пропускаем только активные товары
                 .doOnNext(productRes -> mRealmManager.saveProductResponseToRealm
                         (productRes)) // сохраняем на диск только активные товары
+                .retryWhen(errorObservable ->
+                        errorObservable.zipWith(Observable.range(1,
+                                AppConfig.RETRY_REQUEST_COUNT),
+                                (throwable, retryCount) -> retryCount) // генерируем последовательность чисел от 1 до 5 (число повторений запроса)
+                                .doOnNext(retryCount -> Log.e(TAG, "LOCAL UPDATE request retry " +
+                                        "count: " + retryCount + " " + new Date()))
+                                .map(retryCount ->
+                                        ((long) (AppConfig.RETRY_REQUEST_BASE_DELAY * Math
+                                                .pow(Math.E, retryCount)))) // расчитываем экспоненциальную задержку
+                                .doOnNext(delay -> Log.e(TAG, "LOCAL UPDATE delay: " +
+                                        delay))
+                                .flatMap(delay -> Observable.timer(delay,
+                                        TimeUnit.MILLISECONDS)) // создаем и возвращаем задержку в миллисекундах
+                )
                 .flatMap(productRes -> Observable.empty());
     }
 
