@@ -12,7 +12,6 @@ import com.testography.amgradle.mvp.views.AbstractView;
 import butterknife.BindView;
 
 public class DetailView extends AbstractView<DetailScreen.DetailPresenter> {
-    private static int sCurrentPage = 0;
 
     @BindView(R.id.detail_pager)
     protected ViewPager mViewPager;
@@ -33,24 +32,21 @@ public class DetailView extends AbstractView<DetailScreen.DetailPresenter> {
 
     @Override
     public boolean viewOnBackPressed() {
-        sCurrentPage = 0;
         return false;
     }
 
     public void initView(ProductRealm product) {
         DetailAdapter adapter = new DetailAdapter(product);
         mViewPager.setAdapter(adapter);
-        mPresenter.initFab(sCurrentPage);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
+                mPresenter.initFab(position);
             }
 
             @Override
             public void onPageSelected(int position) {
-                sCurrentPage = position;
-                mPresenter.initFab(position);
+
             }
 
             @Override
