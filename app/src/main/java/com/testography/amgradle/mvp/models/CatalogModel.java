@@ -20,10 +20,6 @@ public class CatalogModel extends AbstractModel {
 
     //region ==================== Products ===================
 
-    public Observable<List<ProductDto>> getProductListObs() {
-        return mProductListObs;
-    }
-
     public List<ProductDto> getProductList() {
         return mDataManager.getPreferencesManager().getProductList();
     }
@@ -32,14 +28,6 @@ public class CatalogModel extends AbstractModel {
 
     public boolean isUserAuth() {
         return mDataManager.isAuthUser();
-    }
-
-    public ProductDto getProductById(int productId) {
-        return mDataManager.getPreferencesManager().getProductById(productId);
-    }
-
-    public void updateProduct(ProductDto product) {
-        mDataManager.updateProduct(product);
     }
 
     public Observable<ProductRealm> getProductObs() {

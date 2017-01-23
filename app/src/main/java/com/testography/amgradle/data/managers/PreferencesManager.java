@@ -6,10 +6,8 @@ import android.preference.PreferenceManager;
 
 import com.google.gson.Gson;
 import com.testography.amgradle.data.storage.dto.ProductDto;
-import com.testography.amgradle.data.storage.dto.UserAddressDto;
 import com.testography.amgradle.utils.ConstantsManager;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -25,7 +23,6 @@ public class PreferencesManager {
     public static String NOTIFICATION_PROMO_KEY = "NOTIFICATION_PROMO_KEY";
 
     public static String PRODUCT_LAST_UPDATE_KEY = "PRODUCT_LAST_UPDATE_KEY";
-    public static String USER_ADDRESSES_KEY = "USER_ADDRESSES_KEY";
     public static String MOCK_PRODUCT_LIST = "MOCK_PRODUCT_LIST";
 
     private final SharedPreferences mSharedPreferences;
@@ -72,21 +69,6 @@ public class PreferencesManager {
 
     //endregion
 
-    //region ==================== User Addresses ===================
-
-    public ArrayList<UserAddressDto> getUserAddresses() {
-        String addresses = mSharedPreferences.getString(USER_ADDRESSES_KEY, null);
-        if (addresses != null) {
-            Gson gson = new Gson();
-            UserAddressDto[] addressList =
-                    gson.fromJson(addresses, UserAddressDto[].class);
-            return new ArrayList<>(Arrays.asList(addressList));
-        }
-        return null;
-    }
-
-    //endregion
-
     //region ==================== User Settings ===================
 
     public Map<String, Boolean> getUserSettings() {
@@ -125,21 +107,6 @@ public class PreferencesManager {
             Gson gson = new Gson();
             ProductDto[] productList = gson.fromJson(products, ProductDto[].class);
             return Arrays.asList(productList);
-        }
-        return null;
-    }
-
-    public ProductDto getProductById(int productId) {
-        // TODO: 28-Oct-16 gets product from mock (to be converted to DB)
-        String products = mSharedPreferences.getString(MOCK_PRODUCT_LIST, null);
-        if (products != null) {
-            Gson gson = new Gson();
-            ProductDto[] productList = gson.fromJson(products, ProductDto[].class);
-            for (ProductDto productDto : productList) {
-                if (productDto.getId() == productId) {
-                    return productDto;
-                }
-            }
         }
         return null;
     }
