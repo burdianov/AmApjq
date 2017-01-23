@@ -85,14 +85,6 @@ public class PreferencesManager {
         return null;
     }
 
-    public void saveUserAddresses(List<UserAddressDto> userAddresses) {
-        SharedPreferences.Editor editor = mSharedPreferences.edit();
-        Gson gson = new Gson();
-        String addresses = gson.toJson(userAddresses);
-        editor.putString(USER_ADDRESSES_KEY, addresses);
-        editor.apply();
-    }
-
     //endregion
 
     //region ==================== User Settings ===================
@@ -150,14 +142,6 @@ public class PreferencesManager {
             }
         }
         return null;
-    }
-
-    private void updateProductList(List<ProductDto> productDtoList) {
-        SharedPreferences.Editor editor = mSharedPreferences.edit();
-        Gson gson = new Gson();
-        String products = gson.toJson(new ArrayList<>(productDtoList));
-        editor.putString(MOCK_PRODUCT_LIST, products);
-        editor.apply();
     }
 
     //endregion

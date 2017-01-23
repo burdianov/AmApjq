@@ -8,9 +8,6 @@ public class ConstantsManager {
     public static final String INVALID_TOKEN = "INVALID_TOKEN";
     public static final String PHOTO_FILE_PREFIX = "IMG_";
 
-    public static final int REQUEST_CAMERA_PICTURE = 99;
-    public static final int REQUEST_GALLERY_PICTURE = 88;
-
     public static final int REQUEST_PERMISSION_CAMERA = 3000;
     public static final int REQUEST_PERMISSION_READ_WRITE_STORAGE = 3001;
 
@@ -23,9 +20,6 @@ public class ConstantsManager {
     public static final String IF_MODIFIED_SINCE_HEADER = "If-Modified-Since";
 
     public static final String SERVER_DATE_FORMAT = "yyyy-MM-dd\'T\'HH:mm:ss.SSS\'Z\'";
-    public static final String TEMPORARY_USER_AVATAR =
-            "http://www.topglobus.ru/forum/images/avatars/gallery/filmy/Rambo.jpg";
-    public static final String TEMPORARY_USER_NAME = "Rambo";
 
     public static final String UNIX_EPOCH_TIME = "Thu, 01 Jan 1970 00:00:00 GMT";
 }

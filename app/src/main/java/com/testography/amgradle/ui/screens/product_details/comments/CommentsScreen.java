@@ -2,7 +2,6 @@ package com.testography.amgradle.ui.screens.product_details.comments;
 
 import android.os.Bundle;
 
-import com.testography.amgradle.BuildConfig;
 import com.testography.amgradle.R;
 import com.testography.amgradle.data.storage.dto.CommentDto;
 import com.testography.amgradle.data.storage.realm.CommentRealm;
@@ -18,7 +17,6 @@ import com.testography.amgradle.ui.screens.product_details.DetailScreen;
 import java.util.List;
 
 import dagger.Provides;
-import io.realm.Realm;
 import io.realm.RealmChangeListener;
 import io.realm.RealmList;
 import mortar.MortarScope;
@@ -130,23 +128,6 @@ public class CommentsScreen extends AbstractScreen<DetailScreen.Component> {
                     getView().getAdapter().reloadAdapter(commentDtos);
                 }
             }));
-        }
-
-        private void clickOnAddComment() {
-            //getView().showAddCommentDialog();
-        }
-
-        public void addComment(CommentRealm commentRealm) {
-            switch (BuildConfig.FLAVOR) {
-                case "base":
-                    mModel.sendComment(mProduct.getId(), commentRealm);
-                    break;
-                case "realmMp":
-                    Realm realm = Realm.getDefaultInstance();
-                    realm.executeTransaction(realm1 -> mProduct.getCommentsRealm().add(commentRealm));
-                    realm.close();
-                    break;
-            }
         }
     }
 

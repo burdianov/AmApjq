@@ -6,7 +6,6 @@ import android.support.v7.app.AlertDialog;
 
 import com.testography.amgradle.BuildConfig;
 import com.testography.amgradle.R;
-import com.testography.amgradle.data.network.res.CommentRes;
 import com.testography.amgradle.data.storage.realm.CommentRealm;
 import com.testography.amgradle.data.storage.realm.ProductRealm;
 import com.testography.amgradle.di.DaggerService;
@@ -130,25 +129,6 @@ public class AddCommentScreen extends AbstractScreen<DetailScreen.Component>
                             realm.close();
                             break;
                     }
-                    Flow.get(getView()).goBack();
-                }
-            }
-        }
-
-        public void clickOnSaveComment(CommentRes commentRes) {
-            Context context = getView().getContext();
-
-            if (getView() != null) {
-                if (getView().mCommentEt.getText().length() == 0) {
-                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
-                    alertDialog.setTitle(context.getString(R.string.empty_field))
-                            .setMessage(context.getString(R.string.can_not_be_empty))
-                            .setPositiveButton(context.getString(R.string.ok),
-                                    (dialog, which) -> {
-                                    })
-                            .show();
-                } else {
-                    //mModel.saveComment(mProduct.getId(), commentRes);
                     Flow.get(getView()).goBack();
                 }
             }

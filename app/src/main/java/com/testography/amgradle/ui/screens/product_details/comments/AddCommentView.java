@@ -55,15 +55,6 @@ public class AddCommentView extends AbstractView<AddCommentScreen
 
     @OnClick(R.id.save_comment_btn)
     void saveComment() {
-        /*CommentRes commentRes = new CommentRes(
-                RandomIdGenerator.generateId(),
-                RandomIdGenerator.generateRemoteId(),
-                ConstantsManager.TEMPORARY_USER_AVATAR,
-                ConstantsManager.TEMPORARY_USER_NAME,
-                (int) mRating.getRating(), new Date(),
-                mCommentEt.getText().toString(), true);
-        mPresenter.clickOnSaveComment(commentRes);*/
-
         CommentRealm comment = new CommentRealm(mRating.getRating(),
                 mCommentEt.getText().toString());
         mPresenter.addComment(comment);

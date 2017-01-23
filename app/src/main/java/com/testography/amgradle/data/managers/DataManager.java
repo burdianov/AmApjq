@@ -139,6 +139,10 @@ public class DataManager {
         mPreferencesManager.saveProfileInfo(mUserProfileInfo);
     }
 
+    public Observable<AvatarUrlRes> uploadUserPhoto(MultipartBody.Part body) {
+        return mRestService.uploadUserAvatar(body);
+    }
+
     //endregion
 
     //region ==================== User Addresses ===================
@@ -382,10 +386,6 @@ public class DataManager {
 
     private String getResVal(int resourceId) {
         return getAppContext().getString(resourceId);
-    }
-
-    public Observable<AvatarUrlRes> uploadUserPhoto(MultipartBody.Part body) {
-        return mRestService.uploadUserAvatar(body);
     }
 
     //endregion
