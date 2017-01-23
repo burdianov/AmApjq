@@ -18,6 +18,7 @@ public class CommentRealm extends RealmObject implements Serializable {
     private float rating;
     private Date commentDate;
     private String comment;
+    private boolean active;
 
     // Required for Realm
     public CommentRealm() {
@@ -32,6 +33,7 @@ public class CommentRealm extends RealmObject implements Serializable {
         this.rating = rating;
         this.commentDate = new Date();
         this.comment = comment;
+        this.active = true;
     }
 
     public CommentRealm(CommentRes commentRes) {
@@ -41,6 +43,7 @@ public class CommentRealm extends RealmObject implements Serializable {
         this.rating = commentRes.getRating();
         this.commentDate = commentRes.getCommentDate();
         this.comment = commentRes.getComment();
+        this.active = commentRes.isActive();
     }
 
     public String getId() {
@@ -65,5 +68,9 @@ public class CommentRealm extends RealmObject implements Serializable {
 
     public String getComment() {
         return comment;
+    }
+
+    public boolean isActive() {
+        return active;
     }
 }

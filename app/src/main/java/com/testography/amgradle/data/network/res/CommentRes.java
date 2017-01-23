@@ -36,6 +36,7 @@ public class CommentRes {
         this.rating = comment.getRating();
         this.commentDate = comment.getCommentDate();
         this.comment = comment.getComment();
+        this.active = comment.isActive();
     }
 
     public String getId() {

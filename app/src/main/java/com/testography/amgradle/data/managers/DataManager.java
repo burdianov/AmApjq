@@ -93,20 +93,6 @@ public class DataManager {
         updateLocalDataWithTimer();
     }
 
-    private void updateLocalDataWithTimer() {
-        Log.e(TAG, "LOCAL UPDATE start : " + new Date());
-        Observable.interval(AppConfig.UPDATE_DATA_INTERVAL, TimeUnit.SECONDS) // генерируем последовательность испускающую элементы каждые 30 секунд
-                .flatMap(aLong -> NetworkStatusChecker.isInternetAvailable()) // проверяем состояние сети
-                .filter(aBoolean -> aBoolean) // только если сеть доступна запрашиваем данные из сети
-                .flatMap(aBoolean -> getProductsObsFromNetwork()) // запрашиваем данные из сети
-                .subscribe(productRealm -> {
-                    Log.e(TAG, "LOCAL UPDATE complete: ");
-                }, throwable -> {
-                    throwable.printStackTrace();
-                    Log.e(TAG, "LOCAL UPDATE error: " + throwable.getMessage());
-                });
-    }
-
     //endregion
 
     //region ==================== User Profile ===================
@@ -288,6 +274,20 @@ public class DataManager {
         return mRealmManager.getAllProductsFromRealm();
     }
 
+    private void updateLocalDataWithTimer() {
+        Log.e(TAG, "LOCAL UPDATE start : " + new Date());
+        Observable.interval(AppConfig.UPDATE_DATA_INTERVAL, TimeUnit.SECONDS) // генерируем последовательность испускающую элементы каждые 30 секунд
+                .flatMap(aLong -> NetworkStatusChecker.isInternetAvailable()) // проверяем состояние сети
+                .filter(aBoolean -> aBoolean) // только если сеть доступна запрашиваем данные из сети
+                .flatMap(aBoolean -> getProductsObsFromNetwork()) // запрашиваем данные из сети
+                .subscribe(productRealm -> {
+                    Log.e(TAG, "LOCAL UPDATE complete: ");
+                }, throwable -> {
+                    throwable.printStackTrace();
+                    Log.e(TAG, "LOCAL UPDATE error: " + throwable.getMessage());
+                });
+    }
+
     @RxLogObservable
     public Observable<ProductRealm> getProductsObsFromNetwork() {
         return mRestService.getProductResObs(mPreferencesManager.getLastProductUpdate())
@@ -322,10 +322,6 @@ public class DataManager {
                                         TimeUnit.MILLISECONDS)) // создаем и возвращаем задержку в миллисекундах
                 )
                 .flatMap(productRes -> Observable.empty());
-    }
-
-    public void updateProduct(ProductDto product) {
-        // TODO: 28-Oct-16 update product count or other property and save to DB
     }
 
     //endregion
