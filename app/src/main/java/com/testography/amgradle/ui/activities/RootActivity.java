@@ -350,14 +350,12 @@ public class RootActivity extends AppCompatActivity implements IRootView,
 
     @Override
     public void setTabLayout(ViewPager pager) {
-        if (mAppBar.getChildCount() <= 1) {
-            TabLayout tabView = new TabLayout(this); // создаем TabLayout
-            tabView.setupWithViewPager(pager); // связываем его с ViewPager
-            tabView.setTabGravity(TabLayout.GRAVITY_FILL);
-            mAppBar.addView(tabView); // добавляем табы в AppBar
-            pager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener
-                    (tabView)); // регистрируем обработчик переключения по табам для ViewPager
-        }
+        TabLayout tabView = new TabLayout(this); // создаем TabLayout
+        tabView.setupWithViewPager(pager); // связываем его с ViewPager
+        tabView.setTabGravity(TabLayout.GRAVITY_FILL);
+        mAppBar.addView(tabView); // добавляем табы в AppBar
+        pager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener
+                (tabView)); // регистрируем обработчик переключения по табам для ViewPager
     }
 
     @Override
@@ -430,11 +428,15 @@ public class RootActivity extends AppCompatActivity implements IRootView,
     @RootScope
     public interface RootComponent {
         void inject(RootActivity activity);
+
         void inject(SplashActivity activity);
+
         void inject(RootPresenter presenter);
 
         AccountModel getAccountModel();
+
         RootPresenter getRootPresenter();
+
         Picasso getPicasso();
     }
 
@@ -444,7 +446,7 @@ public class RootActivity extends AppCompatActivity implements IRootView,
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        InputMethodManager imm = (InputMethodManager)getSystemService(Context.
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.
                 INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
         return true;

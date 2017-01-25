@@ -210,6 +210,7 @@ public class RootPresenter extends Presenter<IRootView> {
                 activity.setBackArrow(isGoBack);
                 activity.setMenuItem(items);
                 if (toolbarMode == TAB_MODE) {
+                    activity.removeTabLayout();
                     activity.setTabLayout(pager);
                 } else {
                     activity.removeTabLayout();
