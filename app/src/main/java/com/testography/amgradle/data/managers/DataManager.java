@@ -120,8 +120,8 @@ public class DataManager {
 
     public void saveUserProfileInfo(String name, String phone, String avatar) {
         mUserProfileInfo.put(PROFILE_FULL_NAME_KEY, name);
-        mUserProfileInfo.put(PROFILE_AVATAR_KEY, avatar);
         mUserProfileInfo.put(PROFILE_PHONE_KEY, phone);
+        mUserProfileInfo.put(PROFILE_AVATAR_KEY, avatar);
         mPreferencesManager.saveProfileInfo(mUserProfileInfo);
     }
 
