@@ -25,7 +25,8 @@ public class SendMessageJob extends Job {
     public SendMessageJob(String productId, CommentRealm comment) {
         super(new Params(JobPriority.MID) // приоритет задачи
                 .requireNetwork() // необходимо соединение с сетью
-                .persist() // персистентная задача (должна быть выполнена вне зависимости от сети)
+                //.persist() // персистентная задача (должна быть выполнена вне
+                // зависимости от сети)
                 .groupBy("Comments")); // группа задач - выполняются поочередно
         mProductsId = productId;
         mComment = comment;
