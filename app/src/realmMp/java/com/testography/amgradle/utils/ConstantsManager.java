@@ -26,8 +26,8 @@ public class ConstantsManager {
 
     public static final String REALM_USER = "leo@gmail.com";
     public static final String REALM_PASSWORD = "leo";
-    public static final String REALM_AUTH_URL = "http://192.168.1.28:9080/auth";
-    public static final String REALM_DB_URL = "realm://192.168.1.28:9080/~/default";
+    public static final String REALM_AUTH_URL = "http://192.168.1.109:9080/auth";
+    public static final String REALM_DB_URL = "realm://192.168.1.109:9080/~/default";
 
     public static final String UNIX_EPOCH_TIME = "Thu, 01 Jan 1970 00:00:00 GMT";
 }
