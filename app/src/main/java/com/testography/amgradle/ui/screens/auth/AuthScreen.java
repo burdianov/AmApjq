@@ -5,11 +5,13 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 
 import com.testography.amgradle.R;
+import com.testography.amgradle.data.storage.realm.ProductRealm;
 import com.testography.amgradle.di.DaggerService;
 import com.testography.amgradle.di.scopes.AuthScope;
 import com.testography.amgradle.flow.AbstractScreen;
 import com.testography.amgradle.flow.Screen;
 import com.testography.amgradle.mvp.models.AuthModel;
+import com.testography.amgradle.mvp.presenters.AbstractPresenter;
 import com.testography.amgradle.mvp.presenters.IAuthPresenter;
 import com.testography.amgradle.mvp.presenters.RootPresenter;
 import com.testography.amgradle.mvp.views.IRootView;
@@ -21,7 +23,9 @@ import javax.inject.Inject;
 
 import dagger.Provides;
 import mortar.MortarScope;
-import mortar.ViewPresenter;
+import rx.Subscriber;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
 
 @Screen(R.layout.screen_auth)
 public class AuthScreen extends AbstractScreen<RootActivity.RootComponent> {
@@ -78,12 +82,28 @@ public class AuthScreen extends AbstractScreen<RootActivity.RootComponent> {
 
     //region ==================== Presenter ===================
 
-    public class AuthPresenter extends ViewPresenter<AuthView> implements IAuthPresenter {
+    public class AuthPresenter extends AbstractPresenter<AuthView, AuthModel>
+            implements IAuthPresenter {
 
         @Inject
-        AuthModel mAuthModel;
+        AuthModel mModel;
         @Inject
         RootPresenter mRootPresenter;
+
+        @Override
+        protected void initActionBar() {
+            // empty
+        }
+
+        @Override
+        protected void initFab() {
+            // empty
+        }
+
+        @Override
+        protected void initDagger(MortarScope scope) {
+            // empty
+        }
 
         @Override
         protected void onEnterScope(MortarScope scope) {
@@ -103,10 +123,40 @@ public class AuthScreen extends AbstractScreen<RootActivity.RootComponent> {
                 }
                 getView().setTypeface();
             }
+            mCompSubs.add(subscribeOnProductRealmObs());
+        }
+
+        private Subscription subscribeOnProductRealmObs() {
+            if (getRootView() != null) {
+                getRootView().showLoad();
+            }
+            return mModel.getProductObsFromNetwork()
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new RealmSubscriber());
+        }
+
+        private class RealmSubscriber extends Subscriber<ProductRealm> {
+
+            @Override
+            public void onCompleted() {
+                getRootView().hideLoad();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                if (getRootView() != null) {
+                    getRootView().showError(e);
+                }
+            }
+
+            @Override
+            public void onNext(ProductRealm productRealm) {
+
+            }
         }
 
         @Nullable
-        private IRootView getRootView() {
+        protected IRootView getRootView() {
             return mRootPresenter.getRootView();
         }
 
@@ -129,7 +179,7 @@ public class AuthScreen extends AbstractScreen<RootActivity.RootComponent> {
 //                    getView().showMessage(sAppContext.getString(R.string.err_msg_password));
                         return;
                     }
-                    mAuthModel.loginUser(email, password);
+                    mModel.loginUser(email, password);
                     getRootView().showLoad();
                     getRootView().showMessage("request for user auth");
 
@@ -175,7 +225,7 @@ public class AuthScreen extends AbstractScreen<RootActivity.RootComponent> {
 
         @Override
         public boolean checkUserAuth() {
-            return mAuthModel.isAuthUser();
+            return mModel.isAuthUser();
         }
     }
     //endregion

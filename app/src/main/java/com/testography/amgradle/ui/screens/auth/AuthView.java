@@ -9,11 +9,11 @@ import android.view.animation.ScaleAnimation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.testography.amgradle.R;
 import com.testography.amgradle.di.DaggerService;
+import com.testography.amgradle.mvp.views.AbstractView;
 import com.testography.amgradle.mvp.views.IAuthView;
 import com.testography.amgradle.utils.FieldsValidator;
 
@@ -27,7 +27,7 @@ import flow.Flow;
 import static com.testography.amgradle.utils.ConstantsManager.CUSTOM_FONTS_ROOT;
 import static com.testography.amgradle.utils.ConstantsManager.CUSTOM_FONT_NAME;
 
-public class AuthView extends RelativeLayout implements IAuthView {
+public class AuthView extends AbstractView<AuthScreen.AuthPresenter> implements IAuthView {
 
     public static final int LOGIN_STATE = 0;
     public static final int IDLE_STATE = 1;
@@ -66,6 +66,11 @@ public class AuthView extends RelativeLayout implements IAuthView {
         }
 
         // TODO: 25-Nov-16 get mScreen and dagger component
+    }
+
+    @Override
+    protected void initDagger(Context context) {
+        // empty
     }
 
     //region ==================== flow view lifecycle callbacks ===================
