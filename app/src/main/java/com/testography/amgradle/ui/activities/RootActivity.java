@@ -428,15 +428,11 @@ public class RootActivity extends AppCompatActivity implements IRootView,
     @RootScope
     public interface RootComponent {
         void inject(RootActivity activity);
-
         void inject(SplashActivity activity);
-
         void inject(RootPresenter presenter);
 
         AccountModel getAccountModel();
-
         RootPresenter getRootPresenter();
-
         Picasso getPicasso();
     }
 
